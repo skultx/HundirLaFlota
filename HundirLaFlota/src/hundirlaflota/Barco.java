@@ -9,9 +9,24 @@ package hundirlaflota;
  * @author delcrego
  */
 public class Barco {
-    protected String nombre;
-    protected int longitud;
-    protected String figura;
+
+    private String nombre;
+    private int longitud;
+    private String figura;
+
+    public Barco(String nombre, int longitud) {
+        this.nombre = nombre;
+        this.longitud = longitud;
+        this.figura = generarFigura();
+    }
+
+    private String generarFigura() {
+        StringBuilder figuraBuilder = new StringBuilder();
+        for (int i = 0; i < longitud; i++) {
+            figuraBuilder.append(nombre.charAt(0));
+        }
+        return figuraBuilder.toString();
+    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -36,5 +51,5 @@ public class Barco {
     public String getFigura() {
         return figura;
     }
-    
+
 }
