@@ -4,52 +4,35 @@
  */
 package hundirlaflota;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author delcrego
  */
 public class Barco {
 
-    private String nombre;
-    private int longitud;
-    private String figura;
+    protected ArrayList<Barco> flota;
 
-    public Barco(String nombre, int longitud) {
+    protected String nombre;
+    protected int longitud;
+    protected String figura;
+
+    public Barco() {
+        flota = new ArrayList<>();
+    }
+
+    public Barco(String nombre, int longitud, String figura) {
         this.nombre = nombre;
         this.longitud = longitud;
-        this.figura = generarFigura();
-    }
-
-    private String generarFigura() {
-        StringBuilder figuraBuilder = new StringBuilder();
-        for (int i = 0; i < longitud; i++) {
-            figuraBuilder.append(nombre.charAt(0));
-        }
-        return figuraBuilder.toString();
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setLongitud(int longitud) {
-        this.longitud = longitud;
-    }
-
-    public void setFigura(String figura) {
         this.figura = figura;
     }
+    
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public int getLongitud() {
-        return longitud;
-    }
-
-    public String getFigura() {
-        return figura;
+    public void AñadirBarcos() {
+        Barco flota1 = new Barco(nombre, longitud, figura);
+        
+        flota1.add("portaviones",5,"PPPPP");
     }
 
 }
