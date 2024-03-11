@@ -12,33 +12,27 @@ package hundirlaflota;
  */
 public class Tablero {
     //Crear los tableros de juego
-    String [][] tablero1;
-    String [][] tablero2;
+    private String [][] matriz;
     
-    //Metodo principal
-    public static void main(String[] args) {
-        //Definimos nuestras matrices
-        String [][] tablero1=new String[10][10];
-        String [][] tablero2=new String[10][10];
-        
-        tablero2(llenarMatriz);
-        
+    //creamos nuestro tablero y lo rellenamos
+    public Tablero(){
+        matriz = new String[10][10];
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                matriz[i][j]="-";
+            }
+        }
     }
     
     //Creamos el metodo para llenar la matriz
-    public String[][] llenarMatriz(String [][] tablero1, String [][] tablero2){
-        for (int i = 0; i < tablero1.length; i++) {
-            for (int j = 0; j < tablero1[0].length; j++) {
+    public void mostrarTablero(String [][] matriz){
+        System.out.println("Tablero: ");
+        System.out.println("A B C D E F J H I J");
+        for (int i = 0; i < matriz.length; i++) {
+            System.out.println(i + " ");
+            for (int j = 0; j < matriz[0].length; j++) {
                 System.out.println("-");
             }
         }
-        for (int i = 0; i < tablero2.length; i++) {
-            for (int j = 0; j < tablero2[0].length; j++) {
-                System.out.println("-");
-            }
-        }
-        
-        
-        return tablero1;
     }
 }
