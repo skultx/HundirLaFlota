@@ -10,10 +10,8 @@ package hundirlaflota;
  */
 public class HundirLaFlota {
     public static void main(String[] args) {
-        Tablero tablero=new Tablero();
-        
-        tablero.mostrarTablero(matriz);
-        
+        Barco barco=new Barco("pepe", 12);
+        System.out.println(barco);
     }
     
 }

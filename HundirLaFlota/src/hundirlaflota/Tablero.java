@@ -12,7 +12,8 @@ package hundirlaflota;
  */
 public class Tablero {
     //Crear los tableros de juego
-    private String [][] matriz;
+    String [][] matriz;
+    private Barco barco;
     
     //creamos nuestro tablero y lo rellenamos
     public Tablero(){
@@ -34,5 +35,10 @@ public class Tablero {
                 System.out.println("-");
             }
         }
+    }
+    
+    //creamos el metodo para meter los barcos en posicion
+    public void introduceBarco(){
+        
     }
 }
