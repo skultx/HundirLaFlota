@@ -21,7 +21,7 @@ public class Tablero {
         String [][] tablero1=new String[10][10];
         String [][] tablero2=new String[10][10];
         
-        tablero2(llenarMatriz)
+        tablero2(llenarMatriz);
         
     }
     
