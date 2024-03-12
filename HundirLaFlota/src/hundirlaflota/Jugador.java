@@ -11,12 +11,12 @@ package hundirlaflota;
 import java.util.ArrayList;
 
 public class Jugador {
-    protected String nombre;
+    protected String nick;
     protected int[][] tablero;
     protected ArrayList<Barco> flota;
 
     public Jugador(String nick) {
-        this.nombre = nombre;
+        this.nick = nick;
         this.tablero = new int[10][10];
         inicializarTablero();
         this.flota = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Jugador {
     }
 
     public void setNick(String nick) {
-        this.nombre = nombre;
+        this.nick = nick;
     }
 
     public void setTablero(int[][] tablero) {
@@ -55,7 +55,7 @@ public class Jugador {
     }
 
     public String getNick() {
-        return nombre;
+        return nick;
     }
 
     public int[][] getTablero() {
