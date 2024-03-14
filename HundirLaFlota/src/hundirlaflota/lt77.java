@@ -8,7 +8,6 @@ package hundirlaflota;
  *
  * @author gdelg
  */
-public class kpeworyñhjpow {
+public class lt77 {
     
 }
-ybiunjpomk´l,ñ
