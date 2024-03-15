@@ -23,7 +23,6 @@ public class Tablero {
         inicializarTablero();
     }
 
-    // Inicializa el tablero con agua en todas las posiciones
     private void inicializarTablero() {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
@@ -32,7 +31,6 @@ public class Tablero {
         }
     }
 
-    // Muestra el tablero actual
     public void mostrarTablero() {
         System.out.println("Tablero:");
         System.out.println("  A B C D E F G H I J");
@@ -45,42 +43,35 @@ public class Tablero {
         }
     }
 
-    // Coloca un barco en el tablero
-    public void colocarBarco(Barco barco, int fila, int columna, char orientacion) {
+    public void colocarBarco(Barco barco, int fila, String columna, int orientacion) {
         int longitud = barco.getLongitud();
         int columnaIndex = columna.charAt(0) - 'A';
         
         if (orientacion == 'H') {
-            // Verificar si el barco cabe en esta orientación
             if (columnaIndex + longitud > 10) {
                 System.out.println("El barco no cabe en esta posición. Inténtalo de nuevo.");
                 return;
             }
-            // Verificar si la posición está ocupada por otro barco
             for (int i = 0; i < longitud; i++) {
                 if (!matriz[fila - 1][columnaIndex + i].equals("A")) {
                     System.out.println("Posición ocupada por otro barco. Inténtalo de nuevo.");
                     return;
                 }
             }
-            // Colocar el barco en el tablero
             for (int i = 0; i < longitud; i++) {
                 matriz[fila - 1][columnaIndex + i] = barco.getFigura().substring(i, i + 1);
             }
         } else if (orientacion == 'V') {
-            // Verificar si el barco cabe en esta orientación
             if (fila + longitud > 11) {
                 System.out.println("El barco no cabe en esta posición. Inténtalo de nuevo.");
                 return;
             }
-            // Verificar si la posición está ocupada por otro barco
             for (int i = 0; i < longitud; i++) {
                 if (!matriz[fila - 1 + i][columnaIndex].equals("A")) {
                     System.out.println("Posición ocupada por otro barco. Inténtalo de nuevo.");
                     return;
                 }
             }
-            // Colocar el barco en el tablero
             for (int i = 0; i < longitud; i++) {
                 matriz[fila - 1 + i][columnaIndex] = barco.getFigura().substring(i, i + 1);
             }
@@ -90,14 +81,16 @@ public class Tablero {
         }
     }
 
-    public static void main(String[] args) {
-        Tablero tablero = new Tablero();
-        tablero.mostrarTablero();
-        
-        // Ejemplo de cómo colocar un barco
-        Barco portaviones = new Barco("Portaviones", 5);
-        tablero.colocarBarco(portaviones, 1, "A", 'H');
-        
-        tablero.mostrarTablero();
+    public void marcarDisparoExitoso(int fila, int columna) {
+        if (matriz[fila - 1][columna - 'A'].equals("A")) {
+            matriz[fila - 1][columna - 'A'] = "X";
+        }
+    }
+
+    public void marcarDisparoFallido(int fila, int columna) {
+        if (matriz[fila - 1][columna - 'A'].equals("A")) {
+            matriz[fila - 1][columna - 'A'] = "O";
+        }
     }
 }
+

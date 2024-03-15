@@ -89,7 +89,5 @@ public class Barco {
     public String toString() {
         return "Barco{" + "flota=" + flota + ", nombre=" + nombre + ", longitud=" + longitud + ", figura=" + figura + '}';
     }
-    
-    
 
 }

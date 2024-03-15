@@ -13,71 +13,64 @@ package hundirlaflota;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+ 
+
 public class Jugador {
     private String nick;
-    private Tablero tablero1;
-    private Tablero tablero2;
+    private Tablero tableroPropio;
+    private Tablero tableroOponente;
     private ArrayList<Barco> flota;
+    Scanner sc=new Scanner(System.in);
 
     public Jugador(String nick) {
         this.nick = nick;
-        this.tablero1 = new Tablero();
-        this.tablero2 = new Tablero();
+        this.tableroPropio = new Tablero();
+        this.tableroOponente = new Tablero();
         this.flota = new ArrayList<>();
     }
 
-    private void inicializarTablero() {
-        tablero1 = new Tablero();
-        tablero2 = new Tablero();
-    }
-
-    public void colocarBarco(Barco barco, int fila, int columna, char orientacion) {
-        if (tablero1.colocarBarco(barco, fila, columna, orientacion)) {
-            System.out.println("Barco " + barco.getNombre() + " colocado en " + fila + ", " + columna);
-        } else {
-            System.out.println("No se pudo colocar el barco en la posición especificada.");
+    public void colocarBarco(Barco barco) {
+        if (!tableroPropio.colocarBarco(barco, 0, nick, 0x0)) {
+            System.out.println("No se pudo colocar el barco en la posición especificada. Inténtalo de nuevo.");
+            colocarBarco(barco); // Intentar nuevamente hasta que se coloque correctamente
         }
     }
 
-    public void mostrarTablero() {
-        System.out.println("Tablero del jugador " + nick + ":");
-        tablero1.mostrarTablero();
+    public void mostrarTableroPropio() {
+        System.out.println("Tablero propio de " + nick + ":");
+        tableroPropio.mostrarTablero();
+        System.out.println();
     }
 
-    public void disparar(Jugador oponente, Scanner scanner) {
+    public void mostrarTableroOponente() {
+        System.out.println("Tablero del oponente de " + nick + ":");
+        tableroOponente.mostrarTablero();
+        System.out.println();
+    }
+
+    public void disparar(Jugador oponente) {
         System.out.println(nick + ", es tu turno de disparar:");
-        oponente.mostrarTablero();
-        System.out.print("Ingrese la fila [1-10]: ");
-        int fila = scanner.nextInt();
-        System.out.print("Ingrese la columna [A-J]: ");
-        String columnaStr = scanner.next().toUpperCase();
-        int columna = columnaStr.charAt(0) - 'A' + 1; // Convertir la letra a índice de columna (1-10)
+        mostrarTableroOponente();
 
-        if (oponente.tablero1.disparar(fila, columna)) {
+        int fila, columna;
+        do {
+            System.out.print("Ingrese la fila (1-10): ");
+            fila = scanner.nextInt();
+        } while (fila < 1 || fila > 10);
+
+        do {
+            System.out.print("Ingrese la columna (A-J): ");
+            char colChar = scanner.next().toUpperCase().charAt(0);
+            columna = colChar - 'A' + 1;
+        } while (columna < 1 || columna > 10);
+
+        if (oponente.tableroPropio.marcarDisparo(fila, columna)) {
             System.out.println("¡Tocado!");
-            oponente.responderDisparo(fila, columna, true);
+            tableroOponente.marcarDisparoExitoso(fila, columna);
         } else {
             System.out.println("¡Agua!");
-            oponente.responderDisparo(fila, columna, false);
+            tableroOponente.marcarDisparoFallido(fila, columna);
         }
-    }
-
-    public void responderDisparo(int fila, int columna, boolean acertado) {
-        if (acertado) {
-            System.out.println("¡Tocado!");
-            tablero1.marcarDisparoExitoso(fila, columna);
-        } else {
-            System.out.println("¡Agua!");
-            tablero1.marcarDisparoFallido(fila, columna);
-        }
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public void setFlota(ArrayList<Barco> flota) {
-        this.flota = flota;
     }
 
     public String getNick() {
@@ -88,4 +81,3 @@ public class Jugador {
         return flota;
     }
 }
-
