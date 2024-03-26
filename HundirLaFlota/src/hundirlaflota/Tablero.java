@@ -4,21 +4,22 @@
  */
 package hundirlaflota;
 
-
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
 /**
  *
- * @author Gonzalo Delgado Crespo
- * Clase que almazena las matrices a modo de tablero del jugador 1 y 2
- * 
+ * @author Gonzalo Delgado Crespo Clase que almazena las matrices a modo de
+ * tablero del jugador 1 y 2
+ *
  */
-
 public class Tablero {
+
     private String[][] matriz;
-    Scanner sc = new Scanner(System.in);
-    protected ArrayList<Barco> flota = new ArrayList<>();
-    
+    private ArrayList<Barco> flota = new ArrayList<>();
+    private Scanner sc = new Scanner(System.in);
+
     public Tablero() {
         matriz = new String[10][10];
         inicializarTablero();
@@ -33,7 +34,6 @@ public class Tablero {
     }
 
     public void colocarBarcos() {
-        ArrayList<Barco> flota = new ArrayList<>();
         flota.add(new Barco("Portaaviones", 5));
         flota.add(new Barco("Buque", 3));
         flota.add(new Barco("Submarino", 2));
@@ -43,27 +43,40 @@ public class Tablero {
             mostrarTablero();
             System.out.println("Coloca tu " + barco.getNombre() + " de longitud " + barco.getLongitud());
 
-            int fila, columna, orientacion;
+            int fila;
+            int columna;
+            int orientacion;
+            boolean colocarCorrectamente = false;
             do {
-                System.out.print("Fila [1-10]: ");
-                fila = sc.nextInt() - 1;
-            } while (fila < 0 || fila > 9);
+                try {
+                    System.out.print("Fila [1-10]: ");
+                    fila = sc.nextInt() - 1;
+                    if (fila < 0 || fila > 9) {
+                        throw new InputMismatchException("El valor de fila debe estar entre 1 y 10.");
+                    }
 
-            do {
-                System.out.print("Columna [A-J]: ");
-                columna = sc.next().toUpperCase().charAt(0) - 'A';
-            } while (columna < 0 || columna > 9);
+                    System.out.print("Columna [A-J]: ");
+                    columna = sc.next().toUpperCase().charAt(0) - 'A';
 
-            do {
-                System.out.print("Orientación [0 para Horizontal 1 para Vertical]: ");
-                orientacion = sc.nextInt();
-            } while (orientacion != 0 && orientacion != 1);
+                    System.out.print("Orientación [0 para Horizontal, 1 para Vertical]: ");
+                    orientacion = sc.nextInt();
+                    if (orientacion != 0 && orientacion != 1) {
+                        throw new InputMismatchException("El valor de orientación debe ser 0 o 1.");
+                    }
 
-            if (!orientacion(barco, fila, columna, orientacion)) {
-                System.out.println("No se pudo colocar el barco ");
-                colocarBarcos(); 
-                
-            }
+                    if (!orientacion(barco, fila, columna, orientacion)) {
+                        System.out.println("No se pudo colocar el barco. Inténtalo de nuevo.");
+                    } else {
+                        colocarCorrectamente = true;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Entrada no válida. Introduce valores enteros para fila, columna y orientación.");
+                    sc.nextLine(); // Limpiar el búfer del scanner
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Valores fuera del rango permitido. Introduce valores válidos para fila y columna.");
+                    sc.nextLine(); // Limpiar el búfer del scanner
+                }
+            } while (!colocarCorrectamente);
         }
         System.out.println("Has colocado todos tus barcos.");
         System.out.println();
@@ -71,34 +84,38 @@ public class Tablero {
 
     private boolean orientacion(Barco barco, int fila, int columna, int orientacion) {
         int longitud = barco.getLongitud();
-        boolean salir=true;
-        
-        if (orientacion == 0) { 
+        boolean puedeColocar = true;
+
+        if (orientacion == 0) {
             if (columna + longitud > 10) {
-                salir=false;
+                puedeColocar = false;
             }
             for (int i = 0; i < longitud; i++) {
                 if (!matriz[fila][columna + i].equals("A")) {
-                    salir=false;
+                    puedeColocar = false;
                 }
             }
-            for (int i = 0; i < longitud; i++) {
-                matriz[fila][columna + i] = barco.getFigura();
+            if (puedeColocar) {
+                for (int i = 0; i < longitud; i++) {
+                    matriz[fila][columna + i] = barco.getFigura();
+                }
             }
-        } else { 
+        } else {
             if (fila + longitud > 10) {
-                salir=false;
+                puedeColocar = false;
             }
             for (int i = 0; i < longitud; i++) {
                 if (!matriz[fila + i][columna].equals("A")) {
-                    salir=false;
+                    puedeColocar = false;
                 }
             }
-            for (int i = 0; i < longitud; i++) {
-                matriz[fila + i][columna] = barco.getFigura();
+            if (puedeColocar) {
+                for (int i = 0; i < longitud; i++) {
+                    matriz[fila + i][columna] = barco.getFigura();
+                }
             }
         }
-        return salir;
+        return puedeColocar;
     }
 
     public void mostrarTablero() {
@@ -127,47 +144,41 @@ public class Tablero {
         }
     }
 
-   public void disparar(Tablero tablero) {
-    Scanner sc = new Scanner(System.in);
-    boolean salir = false;
-    
-    do {
-        int fila, columna;
+    public void disparar(Tablero tablero) {
+        
+        boolean disparoExitoso = false;
         do {
+            int fila, columna;
+            System.out.println("Introduce las coordenadas para disparar:");
             System.out.print("Fila [1-10]: ");
             fila = sc.nextInt() - 1;
-        } while (fila < 0 || fila > 9);
-
-        do {
             System.out.print("Columna [A-J]: ");
             columna = sc.next().toUpperCase().charAt(0) - 'A';
-        } while (columna < 0 || columna > 9);
+            // Validar la entrada del usuario para la fila
+            if (fila < 0 || fila >= matriz.length) {
+                System.out.println("Fila fuera de rango. Introduce un valor válido (1-10).");
+                continue; // Saltar la iteración actual del bucle y solicitar una nueva entrada
+            }
 
-        if (tablero.matriz[fila][columna].equals("A")) {
-            System.out.println("Agua");
-            tablero.matriz[fila][columna] = "O";
-            salir = true;
-        } else {
-            System.out.println("Tocado");
-            tablero.matriz[fila][columna] = "X";
-        }
-    } while (!salir);
-}
+            if (tablero.matriz[fila][columna].equals("X") || tablero.matriz[fila][columna].equals("O")) {
+                System.out.println("Ya has disparado en esta posición. Inténtalo de nuevo.");
+            } else {
+                System.out.println("Tocado");
+                tablero.matriz[fila][columna] = "X";
+                disparoExitoso = true;
+            }
+        } while (!disparoExitoso);
+    }
 
     public boolean flotaDestruida() {
-        boolean derrota=true;
-        for (Barco barco : flota) {
-            for (int i = 0; i < matriz.length; i++) {
-                for (int j = 0; j < matriz[0].length; j++) {
-                    if (matriz[i][j].equals(barco.getFigura())) {
-                        derrota=true;
-                    }
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                if (!matriz[i][j].equals("A") && !matriz[i][j].equals("X") && !matriz[i][j].equals("O")) {
+                    return false; // Si hay una posición ocupada por un barco, no se ha destruido la flota
                 }
             }
         }
-        return derrota;
+        return true; // Si no se encontraron posiciones de barcos, la flota está destruida
     }
+
 }
-
-
-

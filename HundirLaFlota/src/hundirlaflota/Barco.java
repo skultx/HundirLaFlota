@@ -10,7 +10,6 @@ import java.util.ArrayList;
  *
  * @author delcrego
  */
-
 public class Barco {
 
     private String nombre;
@@ -57,4 +56,3 @@ public class Barco {
         return figura;
     }
 }
-

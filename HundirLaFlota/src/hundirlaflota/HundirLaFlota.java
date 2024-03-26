@@ -10,8 +10,10 @@ package hundirlaflota;
  */
 import java.util.Scanner;
 
+import java.util.Scanner;
 
 public class HundirLaFlota {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -23,45 +25,40 @@ public class HundirLaFlota {
 
         jugar(jugador1, jugador2);
 
+        sc.close(); // Cerrar el scanner al finalizar
     }
 
     private static void colocarBarcos(Jugador jugador) {
-        System.out.println(jugador.getNick() + " coloca tus barcos:");
+        System.out.println(jugador.getNick() + ", coloca tus barcos:");
         jugador.colocarBarcos();
     }
 
     private static void jugar(Jugador jugador1, Jugador jugador2) {
-        System.out.println("A jugar");
-        boolean terminar=true;
-        while (terminar) {
-            
-            System.out.println(jugador1.getNick() + "te toca:");
+        System.out.println("¡Comienza el juego!");
+        boolean terminar = false;
+        while (!terminar) {
+            System.out.println(jugador1.getNick() + ", es tu turno:");
             jugador1.mostrarTablero1();
-            
-            
-            
             System.out.println("Tablero del oponente:");
             jugador1.mostrarTablero2();
             jugador1.disparar(jugador2);
             if (jugador2.getTablero1().flotaDestruida()) {
                 System.out.println(jugador1.getNick() + " ha ganado!");
-                terminar=false;
+                terminar = true;
+            } else {
+                System.out.println(jugador2.getNick() + ", es tu turno:");
+                jugador2.mostrarTablero2();
+                System.out.println("Tablero del oponente:");
+                jugador2.mostrarTablero1();
+                jugador2.disparar(jugador1);
+                if (jugador1.getTablero1().flotaDestruida()) {
+                    System.out.println(jugador2.getNick() + " ha ganado!");
+                    terminar = true;
+                }
             }
 
-            
-            System.out.println(jugador2.getNick() + "te toca:");
-            jugador2.mostrarTablero1();
-            
-            System.out.println("Tablero del oponente:");
-            jugador2.mostrarTablero2();
-            jugador2.disparar(jugador1);
-            if (jugador1.getTablero1().flotaDestruida()) {
-                System.out.println(jugador2.getNick() + " win");
-                terminar=false;
-            }
+            // La condición para terminar el juego ahora se elimina del bucle
         }
-        
     }
-    
-}
 
+}
