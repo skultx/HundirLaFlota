@@ -10,7 +10,6 @@ package hundirlaflota;
  */
 import java.util.Scanner;
 
-import java.util.Scanner;
 
 public class HundirLaFlota {
 
@@ -25,7 +24,6 @@ public class HundirLaFlota {
 
         jugar(jugador1, jugador2);
 
-        sc.close(); // Cerrar el scanner al finalizar
     }
 
     private static void colocarBarcos(Jugador jugador) {
@@ -57,7 +55,6 @@ public class HundirLaFlota {
                 }
             }
 
-            // La condición para terminar el juego ahora se elimina del bucle
         }
     }
 

@@ -11,11 +11,12 @@ import java.util.Scanner;
  * @author lopmenal
  */
 public class Jugador {
-
+    Scanner sc = new Scanner(System.in);
+    
     private String nick;
     private Tablero tablero1;
     private Tablero tablero2;
-    Scanner sc = new Scanner(System.in);
+    
 
     public Jugador(String nick) {
         this.nick = nick;
@@ -41,7 +42,7 @@ public class Jugador {
     public void disparar(Jugador oponente) {
         System.out.println(nick + " es tu turno:");
         tablero2.disparar(oponente.tablero1);
-        mostrarTablero1(); // Mostrar el tablero del jugador después del disparo
+        mostrarTablero1();
     }
 
     public String getNick() {

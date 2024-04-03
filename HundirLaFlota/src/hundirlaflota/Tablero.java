@@ -15,10 +15,11 @@ import java.util.Scanner;
  *
  */
 public class Tablero {
+    Scanner sc = new Scanner(System.in);
 
     private String[][] matriz;
     private ArrayList<Barco> flota = new ArrayList<>();
-    private Scanner sc = new Scanner(System.in);
+    
 
     public Tablero() {
         matriz = new String[10][10];
@@ -52,7 +53,7 @@ public class Tablero {
                     System.out.print("Fila [1-10]: ");
                     fila = sc.nextInt() - 1;
                     if (fila < 0 || fila > 9) {
-                        throw new InputMismatchException("El valor de fila debe estar entre 1 y 10.");
+                        throw new InputMismatchException("Tienes que meter un valor entre 1 y 10");
                     }
 
                     System.out.print("Columna [A-J]: ");
@@ -61,20 +62,20 @@ public class Tablero {
                     System.out.print("Orientación [0 para Horizontal, 1 para Vertical]: ");
                     orientacion = sc.nextInt();
                     if (orientacion != 0 && orientacion != 1) {
-                        throw new InputMismatchException("El valor de orientación debe ser 0 o 1.");
+                        throw new InputMismatchException("Tienes que meter un valor entre 1 y 0");
                     }
 
                     if (!orientacion(barco, fila, columna, orientacion)) {
-                        System.out.println("No se pudo colocar el barco. Inténtalo de nuevo.");
+                        System.out.println("No se pudo colocar el barco");
                     } else {
                         colocarCorrectamente = true;
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("Entrada no válida. Introduce valores enteros para fila, columna y orientación.");
-                    sc.nextLine(); // Limpiar el búfer del scanner
+                    System.out.println("Introduce valores enteros");
+                    sc.nextLine();
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Valores fuera del rango permitido. Introduce valores válidos para fila y columna.");
-                    sc.nextLine(); // Limpiar el búfer del scanner
+                    System.out.println("Introduce valores validos ");
+                    sc.nextLine(); 
                 }
             } while (!colocarCorrectamente);
         }
@@ -148,16 +149,15 @@ public class Tablero {
         
         boolean disparoExitoso = false;
         do {
-            int fila, columna;
+            int fila ;
+            int columna;
             System.out.println("Introduce las coordenadas para disparar:");
             System.out.print("Fila [1-10]: ");
             fila = sc.nextInt() - 1;
             System.out.print("Columna [A-J]: ");
             columna = sc.next().toUpperCase().charAt(0) - 'A';
-            // Validar la entrada del usuario para la fila
             if (fila < 0 || fila >= matriz.length) {
-                System.out.println("Fila fuera de rango. Introduce un valor válido (1-10).");
-                continue; // Saltar la iteración actual del bucle y solicitar una nueva entrada
+                System.out.println("Introduce un valor válido (1-10)."); 
             }
 
             if (tablero.matriz[fila][columna].equals("X") || tablero.matriz[fila][columna].equals("O")) {
@@ -174,11 +174,11 @@ public class Tablero {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
                 if (!matriz[i][j].equals("A") && !matriz[i][j].equals("X") && !matriz[i][j].equals("O")) {
-                    return false; // Si hay una posición ocupada por un barco, no se ha destruido la flota
+                    return false;
                 }
             }
         }
-        return true; // Si no se encontraron posiciones de barcos, la flota está destruida
+        return true; 
     }
 
 }
